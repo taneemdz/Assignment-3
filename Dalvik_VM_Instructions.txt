@@ -1,0 +1,82 @@
+Assignment-3
+============
+Q1:  Explore the DVM instructions and prepare a summary of the same atleast for 5 instructions in a detailed format
+
+i) instruction name:
+ii) syntax
+iii)example
+
+
+Ans:
+
+Dalvik VM Instructions
+General Design
+•	The machine model and calling conventions are meant to approximately imitate common real architectures and C-style calling conventions:
+o	The VM is register-based, and frames are fixed in size upon creation. Each frame consists of a particular number of registers (specified by the method) as well as any adjunct data needed to execute the method, such as (but not limited to) the program counter and a reference to the .dex file that contains the method.
+o	The N arguments to a method land in the last N registers of the method's invocation frame.
+o	Registers are 32 bits wide. Adjacent register pairs are used for 64-bit values.
+o	In terms of bitwise representation, (Object) null == (int) 0.
+•	The storage unit in the instruction stream is a 16-bit unsigned quantity. Some bits in some instructions are ignored / must-be-zero.
+•	Instructions aren't gratuitously limited to a particular type. For example, instructions that move 32-bit register values without interpretation don't have to specify whether they are moving ints or floats.
+•	There are separately enumerated and indexed constant pools for references to strings, types, fields, and methods.
+•	Bitwise literal data is represented in-line in the instruction stream.
+•	Because, in practice, it is uncommon for a method to need more than 16 registers, and because needing more than eight registers is reasonably common, many instructions may only address the first 16 registers. When reasonably possible, instructions allow references to up to the first 256 registers. In cases where an instruction variant isn't available to address a desired register, it is expected that the register contents get moved from the original register to a low register (before the operation) and/or moved from a low result register to a high register (after the operation).
+
+•	When installed on a running system, some instructions may be altered, changing their format, as an install-time static linking optimization. This is to allow for faster execution once linkage is known.
+Bitwise descriptions
+The first column in the format table lists the bitwise layout of the format. It consists of one or more space-separated "words" each of which describes a 16-bit code unit. Each character in a word represents four bits, read from high bits to low, with vertical bars ("|") interspersed to aid in reading. Uppercase letters in sequence from "A" are used to indicate fields within the format (which then get defined further by the syntax column). The term "op" is used to indicate the position of the eight-bit opcode within the format. A slashed zero ("Ø") is used to indicate that all bits should be zero in the indicated position.
+For example, the format "B|A|op CCCC" indicates that the format consists of two 16-bit code units. The first word consists of the opcode in the low eight bits and a pair of four-bit values in the high eight bits; and the second word consists of a single 16-bit value.
+Format IDs
+The second column in the format table indicates the short identifier for the format, which is used in other documents and in code to identify the format.
+Format IDs consist of three characters, two digits followed by a letter. The first digit indicates the number of 16-bit code units in the format. The second digit indicates the maximum number of registers that the format contains (maximum, since some formats can accomodate a variable number of registers), with the special designation "r" indicating that a range of registers is encoded. The final letter semi-mnemonically indicates the type of any extra data encoded by the format. For example, format "21t" is of length two, contains one register reference, and additionally contains a branch target.
+Suggested static linking formats have an additional "s" suffix, making them four characters total.
+
+
+Instruction Set:
+Op & Format	Mnemonic / Syntax	Arguments	Description
+00 10x	nop	 	Waste cycles.
+01 12x	move vA, vB	A: destination register (4 bits)
+B: source register (4 bits)	Move the contents of one non-object register to another.
+02 22x	move/from16 vAA, vBBBB	A: destination register (8 bits)
+B: source register (16 bits)	Move the contents of one non-object register to another.
+03 32x	move/16 vAAAA, vBBBB	A: destination register (16 bits)
+B: source register (16 bits)	Move the contents of one non-object register to another.
+04 12x	move-wide vA, vB	A: destination register pair (4 bits)
+B: source register pair (4 bits)	Move the contents of one register-pair to another.
+Note: It is legal to move from vN to either vN-1 or vN+1, so implementations must arrange for both halves of a register pair to be read before anything is written.
+
+packed-switch Format
+Name	Format	Description
+ident	ushort = 0x0100	identifying pseudo-opcode
+size	ushort	number of entries in the table
+first_key	int	first (and lowest) switch case value
+targets	int[]	list of size relative branch targets. The targets are relative to the address of the switch opcode, not of this table.
+Note: The total number of code units for an instance of this table is (size * 2) + 4.
+sparse-switch Format
+Name	Format	Description
+ident	ushort = 0x0200	identifying pseudo-opcode
+size	ushort	number of entries in the table
+keys	int[]	list of size key values, sorted low-to-high
+targets	int[]	list of size relative branch targets, each corresponding to the key value at the same index. The targets are relative to the address of the switch opcode, not of this table.
+Note: The total number of code units for an instance of this table is (size * 4) + 2.
+fill-array-data Format
+Name	Format	Description
+ident	ushort = 0x0300	identifying pseudo-opcode
+element_width	ushort	number of bytes in each element
+size	uint	number of elements in the table
+data	ubyte[]	data values
+Note: The total number of code units for an instance of this table is (size * element_width + 1) / 2 + 4.
+Mathematical Operation Details
+Note: Floating point operations must follow IEEE 754 rules, using round-to-nearest and gradual underflow, except where stated otherwise.
+Opcode	C Semantics	Notes
+neg-int	int32 a;
+int32 result = -a;	Unary twos-complement.
+not-int	int32 a;
+int32 result = ~a;	Unary ones-complement.
+neg-long	int64 a;
+int64 result = -a;	Unary twos-complement.
+not-long	int64 a;
+int64 result = ~a;	Unary ones-complement.
+neg-float	float a;
+float result = -a;	Floating point negation.
+
