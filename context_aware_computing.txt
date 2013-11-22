@@ -1,112 +1,19 @@
 Q3> Give an example of an application simulating an environment of  context aware computing and justify.
 
+The ParcTab System
 
-Context-Aware Computing
+The ParcTab system was developed at the beginning of the 90's at the Xerox Palo Alto Research Center. The system is based on palm-sized wireless ParcTab computers and an infrared communication system that links them to each other and to desktop computers through a local area network (LAN) [25]. The system was developed to experiment with ubiquitous computing and context-awareness in an office environment.
+The ParcTab (figure 2) is a small wireless palm-sized computer with three finger operated buttons on the grip and a touch sensitive screen (128x64) and a speaker. It was continually connected via an infrared-based cellular network to a central server.  Each office room had a transceiver connected to the LAN communicating with the ParcTabs. The total bandwidth of one such cell was 19 200 bps. The ParcTab system could continuously know where each ParcTab was, e.g. which ones were in the same room and notify applications of location changes. The first ParcTab system was released in March 1993 having around 20 users at Xerox PARC. The year after that a new optimized version was released with approximately 40 users. 
+ 
+The ParcTab worked as a mobile personal digital office assistant. There were dozens of applications developed for and tested with it. Some of them were not really context-aware, including among others possibility to view emails, personal calendar information, weather information from the Internet and the local weather station. There were also several ParcTab applications implemented for context-aware experimentation. These included:
 
-One challenge of mobile distributed computing is to exploit the changing environment with a new class of applications
-that are aware of the context in which they are run. Such context-aware software adapts according to the location of
-use, the collection of nearby people, hosts, and accessible devices, as well as to changes to such things over time. A
-system with these capabilities can examine the computing environment and react to changes to the environment.
-Three important aspects of context are: where you are, who you are with, and what resources are nearby (see
-Figure 2.). Context encompasses more than just the user’s location, because other things of interest are also mobile
-and changing. Context includes lighting, noise level, network connectivity, communication costs, communication
-bandwidth, and even the social situation; e.g., whether you are with your manager or with a co-worker.
-We are investigating these kinds of applications using the PARCTAB [1, 7], a small hand held device which uses an
-infrared-based cellular network for communication. The tab acts as a graphics terminal, and most applications run on
-remote hosts. This design exploits remote processing power to achieve a smaller and cheaper device. For input, the
-1This work was supported by Xerox. Portions were also supported by ARPA under contract DABT63-91-C-0027.
-1To Appear: IEEE Workshop on Mobile Computing Systems and Applications, December 8-9 1994 2
-Figure 1: A Context-Aware Computing System (PARCTAB)
-tab has three ﬁnger-operated buttons on the grip, and a touch sensitive screen. For output, the tab has a 128x64 pixel
-display and a piezo-electric speaker. When wired with an infrared transceiver, a room becomes a cell in the infrared
-network. The bandwidth available for all tabs in a cell is 19,200 bps.
-The combination of room-sized cells, and tabs that periodically send an identifying packet (i.e., beacon), permits
-accurate location monitoring even when the device is not being used. The system notiﬁes applications of location
-changes, and also provides location information to a public service that collects and redistributes information about
-objects and their locations [9]. Other systems might learn about location by other means: for example, by using
-global positioning (GPS) or dead-reckoning, or simply by monitoring workstation interactions. An alternative to the
-tab system’s locating scheme – where the mobile devices beacon – is a scheme where stationary devices broadcast
-a message identifying their ﬁxed location. Mobile computers can listen to these broadcasts to determine their own
-locations.
-The devices and locating strategy described above combine to form a mechanism for building context-aware
-applications. In the following sections we describe four categories of context-aware applications. These categories
-are the product of two points along two orthogonal dimensions (see Table 2.): whether the task at hand is getting
-information or doing a command, and whether it is effected manually or automatically.
-manual automatic
-information proximate selection &
-contextual information
-automatic contextual
-reconﬁguration
-command contextual commands context-triggered actions
+Presenting information about the room the user was in. The information could be shown automatically, or by user request. E.g. when the user was at the library information about the library was displayed. [2]
+Helping the user find the most convenient local resource, e.g. the nearest printer. The ParcTab could present a menu with all available printers and the distance of each of them from the users current room. [2]
+Attaching a certain UNIX directory to a certain room. When the user enters the room all the files in the directory are shown. The directory is writeable by everyone, so anybody can post a note in a room by creating a file within its directory. [2]
 
-Table 1: Context-Aware Software DimensionsTo Appear: IEEE Workshop on Mobile Computing Systems and Applications, December 8-9 1994 3
-Name Room Distance
-caps 35-2200 200ft
-claudia 35-2108 30ft
-perfector 35-2301 20ft
-snoball 35-2103 100ft
-(a)
+ 
+Locating other persons carrying a ParcTab. The location of the persons was shown a map on a desktop computer. [26]
 
-Distance Name Room
-20ft perfector 35-2301
-30ft claudia 35-2108
-100ft snoball 35-2103
-200ft caps 35-2200
-(b)
-
-Name Room Distance
-caps 35-2200 200ft
-claudia 35-2108 30ft
-perfector 35-2301 20ft
-snoball 35-2103 100ft
-(c)
-
-Name Room Distance
-caps 35-2200 200ft
-claudia 35-2108 30ft
-perfector 35-2301 20ft
-snoball 35-2103 100ft
-(d)
-
-Table 2: UI Techniques for Proximate Selection
-
-Proximate Selection
-Proximate selection is a user interface technique where the located-objects that are nearby are emphasized or otherwise
-made easier to choose. In general, proximate selection involves entering two variables, the “locus” and the “selection.”
-However, of particular interest are user interfaces that automatically default the locus to the user’s current location.
-There are at least three kinds of located-objects that are interesting to select using this technique. The ﬁrst kind
-is computer input and output devices that require co-location for use. This includes printers, displays, speakers,
-facsimiles, video cameras, thermostats, and so on. The second kind is the set of objects that you are already interacting
-with, and which need to be addressed by a software process. This includes people in the same room to whom you
-would like to “beam” a document. The third kind is the set of places one wants to ﬁnd out about: restaurants, night
-clubs, gas stations, and stores, or more generically, exits and entrances. Consider an electronic yellow pages directory
-that, instead of the “city” divisions of information, sorts represented businesses according to their distance from the
-reader.
-
-Automatic Contextual Reconﬁguration
-Reconﬁguration is the process of adding new components, removing existing components. or altering the connections
-between components. Typical components and connections are servers and their communication channels to clients.
-However reconﬁgurable components may also include loadable device drivers, program modules, hardware elements,
-etc. In the case of context-aware systems, the interesting aspect is how context of use might bring about different
-system conﬁgurations and what these adaptions are.
-
-Contextual Information and Commands
-People’s actions can often be predicted by their situation. There are certain things we do when in the library, kitchen, or
-ofﬁce. Contextual information and commands aim to exploit this fact. Queries on contextual information can produce
-different results according to the context in which they are issued. Similarly, context can parameterize “contextual
-commands,” for example, the print command might, by default, print to the nearest printer.
-
-Category Example
-Date and time after April 15
-between 10 and 12noon
-Location in room 35-2200
-Co-location with fUser Adamsg
-with fType Displayg having fFeatures Colorg
-
-Table 3: Predicates for Context-Triggered Actions
-
-Contextual information and commands pose many challenges. Businesses and government agencies would ﬁnd it
-proﬁtable to export contextual information and commands in order to inexpensively engage large numbers of potential
-customers. However, people interacting with third parties need to ensure security and authenticity of the information.
-Also, personal customizations must somehow coordinate with those provided by third parties.
-
+ 
+Using the ParcTab as a remote control with different control choices in different rooms. [25]
+The ParcTab applications used following types of context: location, the presence of other mobile devices, time, nearby non-mobile machines and the state of the network file system [25].
