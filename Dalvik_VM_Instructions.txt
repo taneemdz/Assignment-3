@@ -33,50 +33,22 @@ Suggested static linking formats have an additional "s" suffix, making them four
 
 
 Instruction Set:
-Op & Format	Mnemonic / Syntax	Arguments	Description
-00 10x	nop	 	Waste cycles.
-01 12x	move vA, vB	A: destination register (4 bits)
-B: source register (4 bits)	Move the contents of one non-object register to another.
-02 22x	move/from16 vAA, vBBBB	A: destination register (8 bits)
-B: source register (16 bits)	Move the contents of one non-object register to another.
-03 32x	move/16 vAAAA, vBBBB	A: destination register (16 bits)
-B: source register (16 bits)	Move the contents of one non-object register to another.
-04 12x	move-wide vA, vB	A: destination register pair (4 bits)
-B: source register pair (4 bits)	Move the contents of one register-pair to another.
-Note: It is legal to move from vN to either vN-1 or vN+1, so implementations must arrange for both halves of a register pair to be read before anything is written.
 
-packed-switch Format
-Name	Format	Description
-ident	ushort = 0x0100	identifying pseudo-opcode
-size	ushort	number of entries in the table
-first_key	int	first (and lowest) switch case value
-targets	int[]	list of size relative branch targets. The targets are relative to the address of the switch opcode, not of this table.
-Note: The total number of code units for an instance of this table is (size * 2) + 4.
-sparse-switch Format
-Name	Format	Description
-ident	ushort = 0x0200	identifying pseudo-opcode
-size	ushort	number of entries in the table
-keys	int[]	list of size key values, sorted low-to-high
-targets	int[]	list of size relative branch targets, each corresponding to the key value at the same index. The targets are relative to the address of the switch opcode, not of this table.
-Note: The total number of code units for an instance of this table is (size * 4) + 2.
-fill-array-data Format
-Name	Format	Description
-ident	ushort = 0x0300	identifying pseudo-opcode
-element_width	ushort	number of bytes in each element
-size	uint	number of elements in the table
-data	ubyte[]	data values
-Note: The total number of code units for an instance of this table is (size * element_width + 1) / 2 + 4.
-Mathematical Operation Details
-Note: Floating point operations must follow IEEE 754 rules, using round-to-nearest and gradual underflow, except where stated otherwise.
-Opcode	C Semantics	Notes
-neg-int	int32 a;
-int32 result = -a;	Unary twos-complement.
-not-int	int32 a;
-int32 result = ~a;	Unary ones-complement.
-neg-long	int64 a;
-int64 result = -a;	Unary twos-complement.
-not-long	int64 a;
-int64 result = ~a;	Unary ones-complement.
-neg-float	float a;
-float result = -a;	Floating point negation.
+Op & Format	     Mnemonic / Syntax	              Arguments	                      Description
+
+00 10x	            nop	 	                                                     Waste cycles.
+
+
+01 12x	         move vA, vB	          A: destination register (4 bits)
+                                        B: source register (4 bits)	            Move the contents of one non                                                                                             -object register to another.
+                                        
+02 22x	      move/from16 vAA, vBBBB	   A: destination register (8 bits)
+                                        B: source register (16 bits)	          Move the contents of one non-object                                                                                       register to another.
+                                        
+03 32x	      move/16 vAAAA, vBBBB	    A: destination register (16 bits)
+                                        B: source register (16 bits)	          Move the contents of one non-object                                                                                     register to another.
+04 12x	      move-wide vA, vB	      A: destination register pair (4 bits)
+                                      B: source register pair (4 bits)	        Move the contents of one register-pair                                                                                 to another.
+
+
 
